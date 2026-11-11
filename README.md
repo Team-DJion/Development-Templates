@@ -15,6 +15,10 @@ p1-09-owner-decision/      P1-09 オーナー承認（方向性合意）
 p2-05-flow-design/         P2-05 情報設計とフロー・画面構成
 p2-06-design-system/       P2-06 デザインシステム
 p2-08-acceptance/          P2-08 受入条件とテスト設計
+p5-08-review-gate/         P5-08 レビューゲート判定
+p6-08-evidence-gate/       P6-08 実機・品質ゲートの証拠集約
+p7-06-release-approval/    P7-06 リリース承認（P7-03 セキュリティGo/No-Go 内包）
+p9-07-improvement-agreement/ P9-07 改善方向のHTML合意
 ```
 
 記入済みの実物の置き場: ここに置くのは空の「型」だけ。案件で入力した実物は、各開発案件のリポジトリに、その工程の成果物名（例：problem-brief、design-system、acceptance-and-tests）で保管する。ブラウザの自動保存は下書き用で、正本は書き出したHTML／JSONを案件リポジトリへ入れたものとする。
