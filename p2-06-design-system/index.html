@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P2-06 デザインシステム — テンプレート（入力版）</title><style>
+:root{--bg:#f7f3ee;--paper:#fffdf9;--ink:#2e2a26;--sub:#6f675d;--beige:#f5e6d3;--terra:#c08552;--terra-soft:#f3e2cd;--moss:#6b7b5a;--moss-soft:#dfe5d5;--brown:#4a3b32;--line:#ddd3c4}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+header{padding:24px 20px 18px;background:var(--paper);border-bottom:1px solid var(--line)}
+.wrap,main,footer{max-width:1000px;margin:0 auto}header h1{margin:0 0 8px;font-size:clamp(21px,4.5vw,30px)}
+.badge{display:inline-block;background:var(--moss-soft);color:var(--moss);font-weight:700;border-radius:999px;padding:2px 12px;font-size:13px;margin-bottom:10px}
+main{padding:6px 16px 40px}h2{margin:0 0 10px;font-size:18px}h3{margin:12px 0 6px;font-size:15px}
+.small{font-size:13px;color:var(--sub)}ul{margin:6px 0 6px 18px;padding:0}
+.toolbar{position:sticky;top:0;z-index:20;background:rgba(247,243,238,.96);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
+.toolbar button{font:inherit;font-size:14px;font-weight:700;border-radius:999px;padding:7px 16px;border:1.5px solid var(--moss);background:#fff;color:var(--moss);cursor:pointer}
+.toolbar button.main{background:var(--moss);color:#fff}#status{font-size:13px;color:var(--sub)}
+input[type=text],textarea,select{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;width:100%}
+textarea{min-height:60px;resize:vertical}label{display:block;margin:8px 0;font-size:14px}label b{display:block;margin-bottom:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+.blk{border-radius:14px;padding:16px 18px;margin:14px 0;border:1px solid var(--line);background:var(--paper)}
+.blk.owner{border-left:10px solid var(--terra)}.blk.ai{border-left:10px solid var(--moss)}
+.blk.decision{background:var(--moss-soft);border-color:var(--moss)}
+.who{display:inline-block;border-radius:999px;padding:1px 10px;font-size:12px;font-weight:700;margin-right:8px;vertical-align:2px}
+.owner .who{background:var(--terra-soft);color:#8a5a2b}.ai .who{background:var(--moss-soft);color:var(--moss)}.decision .who{background:var(--moss);color:#fff}
+.key{background:var(--beige);border-radius:14px;padding:14px 18px;margin:14px 0}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:13px}th,td{border:1px solid var(--line);padding:6px;vertical-align:top}th{background:var(--beige);text-align:left}
+td input,td textarea{min-height:38px;border:0;padding:2px}td textarea{min-height:52px}
+.radio{display:flex;gap:16px;flex-wrap:wrap}.radio label{display:flex;gap:6px;align-items:center;font-size:15px}
+input[type=radio],input[type=checkbox]{width:18px;height:18px;accent-color:var(--moss)}
+input[type=color]{width:52px;height:36px;border:1px solid var(--line);border-radius:8px;background:#fff;padding:2px;cursor:pointer}
+img.pv{max-width:100%;border-radius:10px;margin-top:6px;display:none}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+footer{padding:0 16px 30px;font-size:13px;color:var(--sub)}
+@media print{.toolbar{display:none}body{background:#fff}}
+</style></head><body>
+<div class="toolbar">
+<button class="main" id="btnSave">保存する</button><button id="btnPrint">印刷／PDF</button>
+<button id="btnHtml">入力済みHTMLを書き出す</button><button id="btnJson">データ書き出し</button>
+<button id="btnImport">データ読み込み</button><input type="file" id="importFile" accept=".json,application/json" hidden>
+<button id="btnReset">全部リセット</button><span id="status">入力すると自動でこのブラウザに保存されます</span></div>
+<header><div class="wrap"><span class="badge">P2-06 ／ P2 UX・仕様設計 ／ 担当：ChatGPT</span>
+<h1>デザインシステム — <input data-save="project" type="text" placeholder="案件名を入力" style="display:inline-block;width:min(320px,70%)"></h1>
+<div class="grid2">
+<label><b>日付・版</b><input data-save="datever" type="text" placeholder="例：2026-11-12 / v0.1"></label>
+<label><b>状態</b><select data-save="statusSel"><option>下書き</option><option>AI記入済み・確認待ち</option><option>オーナー確認済み</option><option>決定済み</option></select></label>
+</div>
+<p class="small">欄の見方：<strong>人が書く</strong>＝オーナーの言葉そのまま ／ <strong>AIが書く</strong>＝担当AIの下書き（出典と未検証を明記）／ <strong>決定</strong>＝オーナーの判断。入力内容は外部送信されません。</p>
+</div></header>
+<main>
+<div class="key"><h2>この工程の目的</h2><p>決まった方向性（ムードボード）を、実装できる数値と部品のルールに落として版を固定する。ムードボードが「感じ」、こちらは「ルールと数値」。後工程（P5レビュー／P6実機検証）はこの版と照合する。</p></div>
+
+<section class="blk owner"><h2><span class="who">人が書く</span>起点（オーナー）</h2>
+<label><b>元にしたムードボード（P2-03／P2-04の決定）</b><input data-save="moodboardSrc" type="text" placeholder="候補A/B/Cのどれ＋決定記録へのリンク"></label>
+<label><b>起点にする既定様式</b><select data-save="baseStyle"><option>Default #1「Fusion」</option><option>なし（案件独自）</option><option>他の既定様式</option></select></label>
+<label><b>この案件での上書き（既定と違う所）</b><textarea data-save="overrideNote" rows="2" placeholder="例：この案件は青・水色に変更（進捗ボードの実例のように、違う所だけ書く）"></textarea></label>
+</section>
+<section class="blk ai"><h2><span class="who">AIが書く</span>原則（3〜5行だけ）</h2>
+<label><b>この案件で一番大事な見た目の約束</b><textarea data-save="principle" rows="3" placeholder="遊びを出す場所（ヘッダー／空状態／完了画面／バッジ）と、出さない場所（ボタン・フォーム・表などの操作要素）もここに"></textarea></label>
+</section>
+<section class="blk ai"><h2><span class="who">AIが書く</span>カラートークン（数値で固定）</h2>
+<table><tr><th>トークン（意味の名前）</th><th>色見本</th><th>HEX</th><th>使い道</th></tr><tr><td><input data-save="ct1_1" type="text" value="--bg（地）"></td><td><input type="color" id="cp1" data-colorfor="ct1_2" value="#fdf8ec"></td><td><input data-save="ct1_2" id="ct1_2" data-hexfor="cp1" type="text" value="#fdf8ec"></td><td><input data-save="ct1_3" type="text" placeholder="使い道"></td></tr><tr><td><input data-save="ct2_1" type="text" value="--surface / --card（面）"></td><td><input type="color" id="cp2" data-colorfor="ct2_2" value="#241019"></td><td><input data-save="ct2_2" id="ct2_2" data-hexfor="cp2" type="text" value="#241019"></td><td><input data-save="ct2_3" type="text" placeholder="使い道"></td></tr><tr><td><input data-save="ct3_1" type="text" value="--ink（本文文字）"></td><td><input type="color" id="cp3" data-colorfor="ct3_2" value="#191926"></td><td><input data-save="ct3_2" id="ct3_2" data-hexfor="cp3" type="text" value="#191926"></td><td><input data-save="ct3_3" type="text" placeholder="使い道"></td></tr><tr><td><input data-save="ct4_1" type="text" value="--accent-1（強調1）"></td><td><input type="color" id="cp4" data-colorfor="ct4_2" value="#ff9f2e"></td><td><input data-save="ct4_2" id="ct4_2" data-hexfor="cp4" type="text" value="#ff9f2e"></td><td><input data-save="ct4_3" type="text" placeholder="使い道"></td></tr><tr><td><input data-save="ct5_1" type="text" value="--accent-2（強調2）"></td><td><input type="color" id="cp5" data-colorfor="ct5_2" value="#ff5a4e"></td><td><input data-save="ct5_2" id="ct5_2" data-hexfor="cp5" type="text" value="#ff5a4e"></td><td><input data-save="ct5_3" type="text" placeholder="使い道"></td></tr><tr><td><input data-save="ct6_1" type="text" value="--状態色（成功/警告/危険）"></td><td><input type="color" id="cp6" data-colorfor="ct6_2" value="#6b7b5a"></td><td><input data-save="ct6_2" id="ct6_2" data-hexfor="cp6" type="text" value="#6b7b5a"></td><td><input data-save="ct6_3" type="text" placeholder="使い道"></td></tr></table>
+<p class="small">色見本とHEXは連動します。色は意味の名前（トークン）で指し、画面側で直書きしない。初期値は Default #1 の例です。</p>
+</section>
+<section class="blk ai"><h2><span class="who">AIが書く</span>文字・余白・角・影・動き</h2>
+<div class="grid2">
+<label><b>フォント（見出し）</b><input data-save="fontH" type="text" placeholder=""></label>
+<label><b>フォント（本文）</b><input data-save="fontB" type="text" placeholder=""></label>
+</div>
+<label><b>サイズ階段・行間・太さの既定</b><input data-save="typeScale" type="text" placeholder="例：12 / 14 / 16 / 20 / 28 / 40、行間1.7"></label>
+<label><b>余白階段・角丸・影</b><textarea data-save="spaceRadius" rows="2" placeholder="例：余白 4/8/12/16/24/32/48、角丸 小8/中14/バッジ999、影は2種類まで"></textarea></label>
+<label><b>動き（時間・種類・画面ごとの区別）</b><textarea data-save="motion" rows="2" placeholder="例：速い150ms／普通250ms（速め既定）。種類はフェード／スライドのみ。どの画面の動きか名前で区別して書く"></textarea></label>
+</section>
+<section class="blk ai"><h2><span class="who">AIが書く</span>部品（コンポーネント）</h2>
+<table><tr><th>部品名</th><th>形とトークンの対応</th><th>状態（通常/ホバー/押下/無効/エラー/読込）</th><th>Do / Don't</th></tr><tr><td><input data-save="prt1_1" type="text"></td><td><textarea data-save="prt1_2" rows="2"></textarea></td><td><textarea data-save="prt1_3" rows="2"></textarea></td><td><textarea data-save="prt1_4" rows="2"></textarea></td></tr><tr><td><input data-save="prt2_1" type="text"></td><td><textarea data-save="prt2_2" rows="2"></textarea></td><td><textarea data-save="prt2_3" rows="2"></textarea></td><td><textarea data-save="prt2_4" rows="2"></textarea></td></tr><tr><td><input data-save="prt3_1" type="text"></td><td><textarea data-save="prt3_2" rows="2"></textarea></td><td><textarea data-save="prt3_3" rows="2"></textarea></td><td><textarea data-save="prt3_4" rows="2"></textarea></td></tr><tr><td><input data-save="prt4_1" type="text"></td><td><textarea data-save="prt4_2" rows="2"></textarea></td><td><textarea data-save="prt4_3" rows="2"></textarea></td><td><textarea data-save="prt4_4" rows="2"></textarea></td></tr></table>
+<p class="small">色・余白・角はトークン名で指す（数値の直書き禁止）。状態は通常／ホバー／押下／無効／エラー／読み込み中を全部そろえる。</p>
+</section>
+<section class="blk ai"><h2><span class="who">AIが書く</span>レイアウトの型・アクセシビリティ・実装対応</h2>
+<label><b>レイアウトの型（グリッド・最大幅・画面パターン・スマホでの崩し方）</b><textarea data-save="layout" rows="3" placeholder=""></textarea></label>
+<h3>アクセシビリティ（最低線）</h3>
+<div class="radio">
+<label><input data-save="a11y1" type="checkbox">本文コントラスト比 4.5 以上</label>
+<label><input data-save="a11y2" type="checkbox">タップ目標 44px 以上</label>
+<label><input data-save="a11y3" type="checkbox">フォーカス表示あり</label>
+<label><input data-save="a11y4" type="checkbox">色だけで状態を伝えない</label>
+</div>
+<label><b>実装への対応（トークンの置き場）</b></label>
+<table><tr><th>媒体</th><th>置き場</th></tr>
+<tr><td>Web / HTML</td><td><input data-save="impl1" type="text" value="CSS変数（:root）"></td></tr>
+<tr><td>アプリ</td><td><input data-save="impl2" type="text" value="テーマ定義ファイル"></td></tr>
+<tr><td>UEFN / ゲームUI</td><td><input data-save="impl3" type="text" value="色・配置の数値表として渡す（見た目の正本は本書）"></td></tr></table>
+</section>
+<section class="blk ai"><h2><span class="who">AIが書く</span>検証チェック・変更記録</h2>
+<div class="radio">
+<label><input data-save="chk1" type="checkbox">画面の色・余白が全部トークン名で説明できる</label>
+<label><input data-save="chk2" type="checkbox">部品の状態が全部そろっている</label>
+<label><input data-save="chk3" type="checkbox">操作要素に遊びが入っていない</label>
+<label><input data-save="chk4" type="checkbox">スクリーンショットで証跡を残した</label>
+</div>
+<h3>変更記録</h3>
+<table><tr><th>日付</th><th>版</th><th>変えた所</th><th>理由（オーナー決定ならその言葉）</th></tr><tr><td><input data-save="chg1_1" type="text"></td><td><input data-save="chg1_2" type="text"></td><td><textarea data-save="chg1_3" rows="2"></textarea></td><td><textarea data-save="chg1_4" rows="2"></textarea></td></tr><tr><td><input data-save="chg2_1" type="text"></td><td><input data-save="chg2_2" type="text"></td><td><textarea data-save="chg2_3" rows="2"></textarea></td><td><textarea data-save="chg2_4" rows="2"></textarea></td></tr></table>
+<label><b>根拠・出典</b><textarea data-save="evidence" rows="2" placeholder="ムードボード決定記録・既定様式へのリンク"></textarea></label>
+<label><b>未検証・未確認</b><textarea data-save="unknown" rows="2" placeholder="実機で見ていない部品・状態は正直に書く"></textarea></label>
+</section>
+<section class="blk decision"><h2><span class="who">決定</span>版の固定と引き継ぎ</h2>
+<label><b>固定する版</b><input data-save="fixedVer" type="text" placeholder="例：v1.0（この版を正とする）"></label>
+<label><b>オーナーの一言メモ（そのままの言葉で）</b><textarea data-save="ownernote" rows="3" placeholder=""></textarea></label>
+<label><b>次工程への引き継ぎ（P2-09 設計承認／P3 プロトタイプ）</b><textarea data-save="handoff" rows="3" placeholder="固定した版と、次で使う部品・トークンの要点"></textarea></label>
+</section>
+
+</main>
+<footer>成果物名：design-system ／ テンプレート共通フレーム v1（ヘッダー・欄の色分け・要点先・証拠と未検証・引き継ぎ）</footer>
+<script>
+"use strict";
+var KEY="p2pack-p206-v1";
+var state={fields:{}};
+function $(s,r){return (r||document).querySelector(s)}
+function $all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function setStatus(t){$("#status").textContent=t}
+function collect(){state.fields={};$all("[data-save]").forEach(function(el){
+ if(el.type==="radio"){if(el.checked)state.fields[el.getAttribute("data-save")]=el.value;}
+ else if(el.type==="checkbox"){state.fields[el.getAttribute("data-save")]=el.checked;}
+ else{state.fields[el.getAttribute("data-save")]=el.value;}});}
+function save(silent){collect();try{localStorage.setItem(KEY,JSON.stringify(state));if(!silent)setStatus("保存しました "+new Date().toLocaleTimeString("ja-JP"));}catch(e){setStatus("ブラウザ保存の容量がいっぱいです。書き出しで保存してください");}}
+var timer=null;
+document.addEventListener("input",function(e){var el=e.target;
+ if(el.hasAttribute&&el.hasAttribute("data-imgfor")){var img=document.getElementById(el.getAttribute("data-imgfor"));if(img){if(el.value.trim()){img.src=el.value.trim();img.style.display="block";}else{img.style.display="none";img.removeAttribute("src");}}}
+ if(el.hasAttribute&&el.hasAttribute("data-colorfor")){var t=document.getElementById(el.getAttribute("data-colorfor"));if(t)t.value=el.value;}if(el.hasAttribute&&el.hasAttribute("data-hexfor")){var c=document.getElementById(el.getAttribute("data-hexfor"));if(c&&/^#[0-9a-fA-F]{6}$/.test(el.value.trim()))c.value=el.value.trim();}
+ clearTimeout(timer);timer=setTimeout(function(){save(true);setStatus("自動保存しました")},500);});
+document.addEventListener("change",function(){save(true);});
+function restore(){try{var raw=localStorage.getItem(KEY);if(!raw)return;state=JSON.parse(raw)||state;}catch(e){return}
+ $all("[data-save]").forEach(function(el){var k=el.getAttribute("data-save");if(!(k in (state.fields||{})))return;
+  if(el.type==="radio"){el.checked=(state.fields[k]===el.value);}
+  else if(el.type==="checkbox"){el.checked=!!state.fields[k];}
+  else{el.value=state.fields[k];}});
+ $all("[data-imgfor]").forEach(function(el){if(el.value&&el.value.trim()){var img=document.getElementById(el.getAttribute("data-imgfor"));if(img){img.src=el.value.trim();img.style.display="block";}}});
+ $all("[data-colorfor]").forEach(function(cp){var t=document.getElementById(cp.getAttribute("data-colorfor"));if(t&&/^#[0-9a-fA-F]{6}$/.test(t.value.trim()))cp.value=t.value.trim();});
+ setStatus("前回の入力を復元しました");}
+restore();
+function download(blob,name){var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},2000);}
+$("#btnSave").addEventListener("click",function(){save(false)});
+$("#btnPrint").addEventListener("click",function(){save(true);window.print()});
+$("#btnReset").addEventListener("click",function(){if(!confirm("入力を全部リセットしますか？"))return;localStorage.removeItem(KEY);location.reload();});
+$("#btnJson").addEventListener("click",function(){save(true);download(new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),"data.json");});
+$("#btnImport").addEventListener("click",function(){$("#importFile").click()});
+$("#importFile").addEventListener("change",function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{state=JSON.parse(r.result);localStorage.setItem(KEY,JSON.stringify(state));location.reload();}catch(e){alert("読み込めませんでした。書き出したJSONを選んでください。")}};r.readAsText(f);});
+$("#btnHtml").addEventListener("click",function(){save(true);
+ var clone=document.documentElement.cloneNode(true);
+ var srcEls=$all("input,textarea,select"),cloneEls=$all("input,textarea,select",clone);
+ srcEls.forEach(function(el,i){var c=cloneEls[i];if(!c)return;
+  if(el.type==="checkbox"||el.type==="radio"){if(el.checked)c.setAttribute("checked","");else c.removeAttribute("checked");}
+  else if(el.tagName==="TEXTAREA"){c.textContent=el.value;}
+  else{c.setAttribute("value",el.value);}});
+ $all("img[data-preview]").forEach(function(img,i){var ci=$all("img[data-preview]",clone)[i];if(ci&&img.getAttribute("src")){ci.setAttribute("src",img.getAttribute("src"));ci.style.display="block";}});
+ $all("script",clone).forEach(function(s){s.remove()});var tb=$(".toolbar",clone);if(tb)tb.remove();
+ download(new Blob(["<!DOCTYPE html>\n"+clone.outerHTML],{type:"text/html"}),"filled.html");setStatus("入力済みHTMLを書き出しました");});
+</script>
+</body></html>

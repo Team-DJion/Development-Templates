@@ -12,8 +12,12 @@ p1-01-problem-brief/       P1-01 アイデア・目的の整理
 p1-03-market-research/     P1-03 市場・競合・トレンド調査
 p1-06-value-options/       P1-06 価値提案・差別化案
 p1-09-owner-decision/      P1-09 オーナー承認（方向性合意）
-design-system/             （Wave 2 で追加予定）
+p2-05-flow-design/         P2-05 情報設計とフロー・画面構成
+p2-06-design-system/       P2-06 デザインシステム
+p2-08-acceptance/          P2-08 受入条件とテスト設計
 ```
+
+記入済みの実物の置き場: ここに置くのは空の「型」だけ。案件で入力した実物は、各開発案件のリポジトリに、その工程の成果物名（例：problem-brief、design-system、acceptance-and-tests）で保管する。ブラウザの自動保存は下書き用で、正本は書き出したHTML／JSONを案件リポジトリへ入れたものとする。
 
 全テンプレート共通フレーム v1: ヘッダー（案件名／工程番号／担当AI／版／状態）＋欄の色分け（人が書く／AIが書く／決定）＋要点が先＋証拠リンクと未検証＋次工程への引き継ぎ＋ブラウザ内自動保存と書き出し（入力済みHTML／JSON）。
 
