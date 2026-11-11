@@ -9,8 +9,13 @@ Team-DJion の汎用テンプレートを、特定のAIアプリに依存しな�
 index.html                 テンプレート一覧（カタログ）
 moodboard/index.html       ムードボード（形容詞起点・4ステップ）入力版 — P2-03
 p1-01-problem-brief/       P1-01 アイデア・目的の整理
+p1-02-user-problem/        P1-02 ユーザー・課題の理解
 p1-03-market-research/     P1-03 市場・競合・トレンド調査
+p1-04-award-benchmark/     P1-04 優秀作品・受賞基準の分析
+p1-05-feasibility-risks/   P1-05 技術・費用・リスクの初期評価
 p1-06-value-options/       P1-06 価値提案・差別化案
+p1-07-gtm-hypothesis/      P1-07 初期マーケティング仮説
+p1-08-success-metrics/     P1-08 成功指標・検証計画
 p1-09-owner-decision/      P1-09 オーナー承認（方向性合意）
 p2-02-ux-requirements/     P2-02 ユーザー体験・要求の設計
 p2-04-concept-approval/    P2-04 コンセプト方向性の合意
