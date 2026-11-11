@@ -23,9 +23,21 @@ p2-05-flow-design/         P2-05 情報設計とフロー・画面構成
 p2-06-design-system/       P2-06 デザインシステム
 p2-08-acceptance/          P2-08 受入条件とテスト設計
 p2-09-design-approval/     P2-09 設計承認と実装範囲確定
+p3-02-wireframes/          P3-02 ワイヤーフレーム一覧
+p3-03-design-mocks/        P3-03 デザインカンプ一覧
+p3-07-prototype-findings/  P3-07 問題分析・再試作
+p3-08-prototype-approval/  P3-08 試作結果承認
+p4-07-draft-pr-summary/    P4-07 Draft PR要約
+p5-06-review-findings/     P5-06 重要指摘と修正依頼
 p5-08-review-gate/         P5-08 レビューゲート判定
 p6-08-evidence-gate/       P6-08 実機・品質ゲートの証拠集約
 p7-06-release-approval/    P7-06 リリース承認（P7-03 セキュリティGo/No-Go 内包）
+p8-02-store-assets/        P8-02 ストア素材の確認
+p8-08-production-approval/ P8-08 本リリース承認
+p8-10-smoke-test/          P8-10 公開後スモークテスト結果
+p9-03-usage-metrics/       P9-03 利用状況とファネル比較
+p9-04-feedback-analysis/   P9-04 ユーザーフィードバック分析
+p9-06-root-cause/          P9-06 根本原因分析と改善案
 p9-07-improvement-agreement/ P9-07 改善方向のHTML合意
 ```
 
