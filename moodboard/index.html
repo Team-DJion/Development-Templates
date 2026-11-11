@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>ムードボード テンプレート（入力版）— 形容詞起点・4ステップ</title>
+<style>
+:root{--bg:#f7f3ee;--paper:#fffdf9;--ink:#2e2a26;--sub:#6f675d;--beige:#f5e6d3;--terra:#c08552;--moss:#6b7b5a;--moss-soft:#dfe5d5;--brown:#4a3b32;--line:#ddd3c4}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+header{padding:26px 20px 20px;background:var(--paper);border-bottom:1px solid var(--line)}
+.wrap,main,footer{max-width:1040px;margin:0 auto}header h1{margin:0 0 8px;font-size:clamp(22px,4.5vw,32px)}
+.badge{display:inline-block;background:var(--moss-soft);color:var(--moss);font-weight:700;border-radius:999px;padding:2px 12px;font-size:13px;margin-bottom:10px}
+main{padding:8px 16px 44px}h2{margin:28px 0 10px;font-size:20px;border-left:6px solid var(--moss);padding-left:10px}h3{margin:12px 0 6px;font-size:16px}
+.card{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin:12px 0}
+.small{font-size:13px;color:var(--sub)}ul{margin:6px 0 6px 18px;padding:0}
+input[type=text],textarea,select{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;width:100%}
+input[type=text]:focus,textarea:focus{outline:2px solid var(--moss-soft);border-color:var(--moss)}
+textarea{min-height:64px;resize:vertical}
+.inline{display:inline-block;width:auto;min-width:150px}
+.toolbar{position:sticky;top:0;z-index:20;background:rgba(247,243,238,.96);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
+.toolbar button{font:inherit;font-size:14px;font-weight:700;border-radius:999px;padding:7px 16px;border:1.5px solid var(--moss);background:#fff;color:var(--moss);cursor:pointer}
+.toolbar button.main{background:var(--moss);color:#fff}
+#status{font-size:13px;color:var(--sub)}
+.steps{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+.step{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:14px 16px}
+.step .no{display:inline-block;background:var(--moss);color:#fff;border-radius:999px;width:26px;height:26px;text-align:center;line-height:26px;font-weight:700}
+.adj{display:flex;flex-wrap:wrap;gap:8px}.adj input{width:150px;border:1.5px solid var(--moss);border-radius:999px;padding:5px 14px;font-weight:700}
+.board{border:2px solid var(--brown);border-radius:16px;overflow:hidden;background:var(--paper)}
+.board-head{background:var(--beige);padding:12px 16px;font-weight:700}
+.collage{display:grid;grid-template-columns:repeat(3,1fr)}
+.group{padding:14px;border-right:1px solid var(--line)}.group:last-child{border-right:0}.group h4{margin:0 0 8px}
+.group h4 b{color:var(--moss)}
+.slot{position:relative;border:1.5px dashed #c3b59d;border-radius:10px;min-height:104px;display:flex;align-items:center;justify-content:center;color:var(--sub);font-size:13px;margin:8px 0;background:#fff;text-align:center;padding:8px;cursor:pointer;overflow:hidden}
+.slot:hover{border-color:var(--moss)}
+.slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.slot .del{position:absolute;top:6px;right:6px;z-index:2;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:999px;padding:2px 10px;cursor:pointer;font-size:12px}
+.slotwrap{position:relative}
+.slotwrap .del{position:absolute;top:14px;right:6px;z-index:3;background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:999px;padding:2px 10px;cursor:pointer;font-size:12px}
+.pick{display:inline-block;background:var(--moss);color:#fff;font-weight:700;border-radius:999px;padding:6px 18px;font-size:15px}
+.filein{position:absolute;opacity:0;width:1px;height:1px;overflow:hidden}
+.slot img{pointer-events:none}
+.urlrow{display:flex;gap:6px;margin:4px 0 2px}.urlrow input{flex:1;font-size:13px}.urlrow button{font:inherit;font-size:13px;font-weight:700;border-radius:8px;border:1.5px solid var(--moss);background:#fff;color:var(--moss);padding:4px 10px;cursor:pointer;white-space:nowrap}
+.src{margin:4px 0 12px;font-size:13px}
+.guide{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));border-top:1px solid var(--line)}
+.guide>div{padding:14px 16px;border-right:1px solid var(--line)}
+.sw{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.color{text-align:center}.color input[type=color]{width:52px;height:52px;border:1px solid var(--line);border-radius:12px;background:#fff;padding:2px;cursor:pointer}
+.color input[type=text]{text-align:center;font-size:12px;padding:3px 4px;margin-top:4px}
+.check{list-style:none;margin-left:0}.check li{margin:5px 0}.check input{width:18px;height:18px;vertical-align:-3px;accent-color:var(--moss)}
+.decision{background:var(--moss-soft);border-radius:14px;padding:16px 18px}.decision input,.decision textarea{background:rgba(255,255,255,.85)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}@media(max-width:720px){.collage{grid-template-columns:1fr}.group{border-right:0;border-bottom:1px solid var(--line)}.grid2{grid-template-columns:1fr}}
+footer{padding:0 16px 30px;font-size:13px;color:var(--sub)}
+@media print{.toolbar{display:none}.slot .del{display:none}body{background:#fff}}
+</style></head><body>
+
+<div class="toolbar">
+<button class="main" id="btnSave">保存する</button>
+<button id="btnPrint">印刷／PDF</button>
+<button id="btnHtml">入力済みHTMLを書き出す</button>
+<button id="btnJson">データ書き出し</button>
+<button id="btnImport">データ読み込み</button>
+<input type="file" id="importFile" accept=".json,application/json" hidden>
+<button id="btnReset">全部リセット</button>
+<span id="status">入力すると自動でこのブラウザに保存されます</span>
+</div>
+
+<header><div class="wrap"><span class="badge">入力版テンプレート v3（画像ボタン修正版）／ 形容詞起点・4ステップ</span>
+<h1>ムードボード — <input class="inline" data-save="project" type="text" placeholder="案件名を入力" style="min-width:220px"></h1>
+<div class="grid2">
+<p>日付・版 <input data-save="datever" type="text" placeholder="例：2026-11-11 / v0.1"></p>
+<p>対象ユーザー <input data-save="audience" type="text" placeholder="例：小学生〜中学生のプレイヤー"></p>
+</div>
+<p>目的を一言で <input data-save="purpose" type="text" placeholder="例：入った瞬間に今日の変化に気づけるロビーにしたい"></p>
+</div></header>
+
+<main>
+<div class="card"><strong>このボードの役割</strong>
+<ul><li>雰囲気を画像・色・フォント・質感で1枚に視覚化する</li><li>チームと「同じ絵」を見て認識のずれを先に潰す</li><li>制作中に迷ったとき戻る判断基準にする</li></ul>
+<p class="small">完成形のデザインではありません。素材の丸写しではなく、色の温度・形・余白など抽象化した要素を抽出します。使い方：①枠の中の緑の「画像を選ぶ」をタップ → ②写真アプリやファイルから1枚選ぶ → ③枠に表示されたら追加完了。Web上の画像は、枠の下の欄に画像URLを貼って「URLで追加」でも入れられます。文字の欄はそのまま打てます。</p></div>
+
+<h2>作り方 — 4ステップ（順番を変えない）</h2>
+<div class="steps">
+<div class="step"><span class="no">1</span><h3>形容詞を3〜5個に絞る</h3><p class="small">20〜30個出してから絞る。対義語のペアで軸を持ち、競合と被らない言葉を。目安1〜2時間</p></div>
+<div class="step"><span class="no">2</span><h3>素材を広く集める</h3><p class="small">質より量で合計20〜30点（写真10〜20／作例5〜10／色・タイポ3〜5）。検索は日本語＋英語で。目安1〜2時間</p></div>
+<div class="step"><span class="no">3</span><h3>形容詞ごとに絞る</h3><p class="small">各形容詞3〜5点、合計10〜20点へ。当てはまらない素材は外す。目安30分〜1時間</p></div>
+<div class="step"><span class="no">4</span><h3>トーンを抽出する</h3><p class="small">色5〜6色／タイポ2〜3書体／余白・形・質感を下のガイド欄へ。目安1時間</p></div>
+</div>
+
+<h2>ステップ1 — 形容詞</h2>
+<div class="card">
+<p class="small">問い：人に例えるとどんな人？ ／ 競合と何が違う？ ／ 将来どうなっていたい？ ／ Why・Who・What・How？</p>
+<label>出した形容詞（20〜30個）<textarea data-save="adjAll" placeholder="例：親しみやすい、落ち着く、温かい、カジュアル、シンプル、手作り感、繊細、ナチュラル…"></textarea></label>
+<p><strong>最終の形容詞（3〜5個）— 下のボードの見出しに自動で入ります</strong></p>
+<div class="adj">
+<input data-save="adj1" data-adj="1" type="text" placeholder="形容詞 1">
+<input data-save="adj2" data-adj="2" type="text" placeholder="形容詞 2">
+<input data-save="adj3" data-adj="3" type="text" placeholder="形容詞 3">
+<input data-save="adj4" type="text" placeholder="形容詞 4（任意）">
+<input data-save="adj5" type="text" placeholder="形容詞 5（任意）">
+</div></div>
+
+<h2>完成ボード — 上：コラージュ ／ 下：要素ガイド</h2>
+<div class="board">
+<div class="board-head">素材は合計10〜20点が目安 ／ 画像枠タップで追加、URLでも貼れます</div>
+<div class="collage" id="collage"></div>
+<div class="guide">
+<div><h3>カラーパレット（5〜6色）</h3><div class="sw" id="palette"></div>
+<p class="small">色をタップするとカラーピッカーが開きます。HEX欄は直接入力もできます。</p></div>
+<div><h3>タイポグラフィ（2〜3書体）</h3>
+<p>見出し <input data-save="fontHead" type="text" placeholder="例：丸ゴシック／明朝"></p>
+<p>本文 <input data-save="fontBody" type="text" placeholder="例：ゴシック"></p>
+<p class="small">形容詞から傾向を決める（温かい→丸ゴシック・手書き風、本物の→セリフ・明朝 など）。</p></div>
+<div><h3>余白・形・質感の注釈</h3>
+<p>余白 <select data-save="space"><option value="">選ぶ</option><option>多め（落ち着き・上品）</option><option>少なめ（活気・カジュアル）</option><option>中間</option></select></p>
+<p>形と線 <select data-save="shape"><option value="">選ぶ</option><option>角丸・手書き線（親しみ）</option><option>直線・機械線（洗練・精密）</option><option>混ぜる</option></select></p>
+<p>質感 <select data-save="texture"><option value="">選ぶ</option><option>マット（自然）</option><option>グロス（モダン）</option><option>混ぜる</option></select></p>
+<textarea data-save="guideNote" placeholder="その他の注釈（自由記入）"></textarea></div>
+</div></div>
+
+<h2>絞り込みチェック</h2>
+<div class="card"><ul class="check">
+<li><label><input type="checkbox" data-save="chk1"> その素材は担当の形容詞を強く表しているか</label></li>
+<li><label><input type="checkbox" data-save="chk2"> 他の素材と全体のトーンが揃っているか</label></li>
+<li><label><input type="checkbox" data-save="chk3"> 競合と違う方向性の要素が入っているか</label></li>
+<li><label><input type="checkbox" data-save="chk4"> どの形容詞にも当てはまらない素材を外したか</label></li>
+<li><label><input type="checkbox" data-save="chk5"> 素材の出典を全部書いたか</label></li>
+</ul></div>
+
+<h2>決定の記録</h2>
+<div class="decision">
+<p>採用した方向 <input data-save="decision" type="text" placeholder="例：形容詞2のグループを中心に進める"></p>
+<p>理由を一言（決めた人の言葉で）<textarea data-save="decisionReason" placeholder="そのままの言葉で書く"></textarea></p>
+<p class="small">次の工程：このボードを判断軸に、デザインシステム（色・タイポ・余白・部品の数値化）へ進む。</p></div>
+</main>
+<footer>参考：NOT DESIGN SCHOOL「ムードボードの作り方｜形容詞起点の4ステップ」 https://notdesignschool.jp/story/moodboard-howto — 構成と手順を参考に再構成。入力版テンプレート提案（未決定）。入力内容はこのブラウザ内にだけ保存され、外部送信されません。</footer>
+
+<script>
+"use strict";
+var KEY="moodboard-adjective-input-v1";
+var state={fields:{},images:{}};
+// --- build groups and slots ---
+var collage=document.getElementById("collage");
+for(var g=1;g<=3;g++){
+  var div=document.createElement("div");div.className="group";
+  var html='<h4><b id="gtitle'+g+'">形容詞 '+g+'</b> の素材</h4>';
+  for(var s=1;s<=3;s++){
+    var id="g"+g+"s"+s;
+    html+='<div class="slotwrap" data-slotwrap="'+id+'"><label class="slot"><input type="file" class="filein" accept="image/*"><span class="hint"><span class="pick">画像を選ぶ</span><br><small>タップすると写真・ファイルが開きます</small></span><img alt="" hidden></label><button type="button" class="del" hidden>× 外す</button></div>'
+        +'<div class="urlrow"><input type="text" data-save="url-'+id+'" placeholder="画像URLを貼る"><button type="button" data-urlbtn="'+id+'">URLで追加</button></div>'
+        +'<input class="src" type="text" data-save="src-'+id+'" placeholder="出典・メモ（画像'+s+'）">';
+  }
+  html+='<textarea data-save="reason-g'+g+'" placeholder="この形容詞を強く表す理由"></textarea>';
+  div.innerHTML=html;collage.appendChild(div);
+}
+// --- build palette ---
+var palette=document.getElementById("palette");
+var defaults=["#F5E6D3","#E8CDB4","#C08552","#6B7B5A","#4A3B32","#FAFAFA"];
+for(var c=1;c<=6;c++){
+  var d=document.createElement("div");d.className="color";
+  d.innerHTML='<input type="color" data-color="'+c+'" value="'+defaults[c-1]+'"><input type="text" data-save="chex'+c+'" value="'+defaults[c-1]+'" aria-label="HEX">';
+  palette.appendChild(d);
+}
+// --- helpers ---
+function $(s,r){return (r||document).querySelector(s)}
+function $all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function setStatus(t){$("#status").textContent=t}
+function collect(){
+  state.fields={};
+  $all("[data-save]").forEach(function(el){
+    state.fields[el.getAttribute("data-save")]=(el.type==="checkbox")?el.checked:el.value;
+  });
+}
+function save(silent){
+  collect();
+  try{localStorage.setItem(KEY,JSON.stringify(state));if(!silent)setStatus("保存しました "+new Date().toLocaleTimeString("ja-JP"));}
+  catch(e){setStatus("ブラウザ保存の容量がいっぱいです。「入力済みHTMLを書き出す」で保存してください");}
+}
+var timer=null;
+document.addEventListener("input",function(e){
+  var el=e.target;
+  if(el.hasAttribute&&el.hasAttribute("data-adj")){
+    var t=$("#gtitle"+el.getAttribute("data-adj"));
+    if(t)t.textContent=el.value||("形容詞 "+el.getAttribute("data-adj"));
+  }
+  if(el.hasAttribute&&el.hasAttribute("data-save")&&/^chex/.test(el.getAttribute("data-save"))){
+    var n=el.getAttribute("data-save").replace("chex","");
+    var cp=$('[data-color="'+n+'"]');if(cp&&/^#[0-9a-fA-F]{6}$/.test(el.value))cp.value=el.value;
+  }
+  clearTimeout(timer);timer=setTimeout(function(){save(true);setStatus("自動保存しました")},500);
+});
+document.addEventListener("change",function(e){
+  var el=e.target;
+  if(el.hasAttribute&&el.hasAttribute("data-color")){
+    var hex=$('[data-save="chex'+el.getAttribute("data-color")+'"]');if(hex)hex.value=el.value.toUpperCase();save(true);
+  }
+});
+// --- image slots ---
+function applyImage(wrap,id){
+  var img=$("img",wrap),hint=$(".hint",wrap),del=$(".del",wrap);
+  if(state.images[id]){img.src=state.images[id];img.hidden=false;hint.style.display="none";del.hidden=false;}
+  else{img.removeAttribute("src");img.hidden=true;hint.style.display="";del.hidden=true;}
+}
+$all("[data-slotwrap]").forEach(function(wrap){
+  var id=wrap.getAttribute("data-slotwrap"),file=$('input[type=file]',wrap);
+  $(".del",wrap).addEventListener("click",function(e){e.preventDefault();e.stopPropagation();delete state.images[id];applyImage(wrap,id);save(true);});
+  file.addEventListener("change",function(){
+    if(!file.files||!file.files[0])return;
+    var f=file.files[0],url=URL.createObjectURL(f),im=new Image();
+    im.onload=function(){
+      var max=900,sc=Math.min(1,max/Math.max(im.width,im.height));
+      var cv=document.createElement("canvas");cv.width=Math.round(im.width*sc);cv.height=Math.round(im.height*sc);
+      cv.getContext("2d").drawImage(im,0,0,cv.width,cv.height);
+      state.images[id]=(f.type==="image/png")?cv.toDataURL("image/png"):cv.toDataURL("image/jpeg",0.85);
+      URL.revokeObjectURL(url);applyImage(wrap,id);save(true);setStatus("画像を追加しました（自動保存）");
+    };
+    im.src=url;
+  });
+});
+// URLで追加するボタン（URLはそのまま表示用に保存する。外部画像はサイト側の許可次第で表示されない場合がある）
+$all("[data-urlbtn]").forEach(function(btn){
+  btn.addEventListener("click",function(){
+    var id=btn.getAttribute("data-urlbtn");
+    var input=$('[data-save="url-'+id+'"]');
+    var u=input?input.value.trim():"";
+    if(!/^https?:\/\//.test(u)){setStatus("画像URLは http:// か https:// で始まる形で貼ってください");return;}
+    state.images[id]=u;
+    var wrap=$('[data-slotwrap="'+id+'"]');if(wrap)applyImage(wrap,id);
+    save(true);setStatus("URLの画像を追加しました（自動保存）");
+  });
+});
+// --- restore ---
+function restore(){
+  try{var raw=localStorage.getItem(KEY);if(!raw)return;state=JSON.parse(raw)||state;}catch(e){return}
+  $all("[data-save]").forEach(function(el){
+    var k=el.getAttribute("data-save");if(!(k in (state.fields||{})))return;
+    if(el.type==="checkbox")el.checked=!!state.fields[k];else el.value=state.fields[k];
+    if(el.hasAttribute("data-adj")){var t=$("#gtitle"+el.getAttribute("data-adj"));if(t&&el.value)t.textContent=el.value;}
+  });
+  $all("[data-color]").forEach(function(cp){
+    var hex=state.fields["chex"+cp.getAttribute("data-color")];if(hex&&/^#[0-9a-fA-F]{6}$/.test(hex))cp.value=hex;
+  });
+  $all("[data-slotwrap]").forEach(function(wrap){applyImage(wrap,wrap.getAttribute("data-slotwrap"))});
+  setStatus("前回の入力を復元しました");
+}
+restore();
+// --- toolbar ---
+$("#btnSave").addEventListener("click",function(){save(false)});
+$("#btnPrint").addEventListener("click",function(){save(true);window.print()});
+$("#btnReset").addEventListener("click",function(){
+  if(!confirm("入力を全部リセットしますか？"))return;
+  localStorage.removeItem(KEY);location.reload();
+});
+$("#btnJson").addEventListener("click",function(){
+  save(true);
+  var blob=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});
+  download(blob,"moodboard-data.json");
+});
+$("#btnImport").addEventListener("click",function(){$("#importFile").click()});
+$("#importFile").addEventListener("change",function(){
+  var f=this.files[0];if(!f)return;
+  var r=new FileReader();r.onload=function(){
+    try{state=JSON.parse(r.result);localStorage.setItem(KEY,JSON.stringify(state));location.reload();}
+    catch(e){alert("読み込めませんでした。データ書き出ししたJSONを選んでください。")}
+  };r.readAsText(f);
+});
+function download(blob,name){
+  var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();
+  setTimeout(function(){URL.revokeObjectURL(a.href)},2000);
+}
+$("#btnHtml").addEventListener("click",function(){
+  save(true);
+  var clone=document.documentElement.cloneNode(true);
+  var srcEls=$all("input,textarea,select"),cloneEls=$all("input,textarea,select",clone);
+  srcEls.forEach(function(el,i){
+    var c=cloneEls[i];if(!c)return;
+    if(el.type==="checkbox"){if(el.checked)c.setAttribute("checked","");else c.removeAttribute("checked");}
+    else if(el.tagName==="TEXTAREA"){c.textContent=el.value;}
+    else{c.setAttribute("value",el.value);}
+  });
+  $all("[data-slotwrap]").forEach(function(wrap,i){
+    var cs=$all("[data-slotwrap]",clone)[i],id=wrap.getAttribute("data-slotwrap");
+    var cimg=$("img",cs),chint=$(".hint",cs),cdel=$(".del",cs);
+    if(state.images[id]){cimg.setAttribute("src",state.images[id]);cimg.removeAttribute("hidden");if(chint)chint.style.display="none";}
+    if(cdel)cdel.remove();
+  });
+  $all("script",clone).forEach(function(s){s.remove()});
+  var tb=$(".toolbar",clone);if(tb)tb.remove();
+  var blob=new Blob(["<!DOCTYPE html>\n"+clone.outerHTML],{type:"text/html"});
+  download(blob,"moodboard-filled.html");
+  setStatus("入力済みHTMLを書き出しました");
+});
+</script>
+</body></html>

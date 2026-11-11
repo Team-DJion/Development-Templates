@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="ja"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>P1-09 HTMLでオーナー承認（方向性合意） — テンプレート（入力版）</title><style>
+:root{--bg:#f7f3ee;--paper:#fffdf9;--ink:#2e2a26;--sub:#6f675d;--beige:#f5e6d3;--terra:#c08552;--terra-soft:#f3e2cd;--moss:#6b7b5a;--moss-soft:#dfe5d5;--brown:#4a3b32;--line:#ddd3c4}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Hiragino Sans","Noto Sans JP",sans-serif;background:var(--bg);color:var(--ink);line-height:1.7}
+header{padding:24px 20px 18px;background:var(--paper);border-bottom:1px solid var(--line)}
+.wrap,main,footer{max-width:1000px;margin:0 auto}header h1{margin:0 0 8px;font-size:clamp(21px,4.5vw,30px)}
+.badge{display:inline-block;background:var(--moss-soft);color:var(--moss);font-weight:700;border-radius:999px;padding:2px 12px;font-size:13px;margin-bottom:10px}
+main{padding:6px 16px 40px}h2{margin:0 0 10px;font-size:18px}h3{margin:12px 0 6px;font-size:15px}
+.small{font-size:13px;color:var(--sub)}ul{margin:6px 0 6px 18px;padding:0}
+.toolbar{position:sticky;top:0;z-index:20;background:rgba(247,243,238,.96);border-bottom:1px solid var(--line);padding:10px 16px;display:flex;gap:8px;flex-wrap:wrap;align-items:center;justify-content:center}
+.toolbar button{font:inherit;font-size:14px;font-weight:700;border-radius:999px;padding:7px 16px;border:1.5px solid var(--moss);background:#fff;color:var(--moss);cursor:pointer}
+.toolbar button.main{background:var(--moss);color:#fff}#status{font-size:13px;color:var(--sub)}
+input[type=text],textarea,select{font:inherit;color:var(--ink);background:#fff;border:1px solid var(--line);border-radius:8px;padding:6px 10px;width:100%}
+textarea{min-height:60px;resize:vertical}label{display:block;margin:8px 0;font-size:14px}label b{display:block;margin-bottom:2px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media(max-width:760px){.grid2,.grid3{grid-template-columns:1fr}}
+.blk{border-radius:14px;padding:16px 18px;margin:14px 0;border:1px solid var(--line);background:var(--paper)}
+.blk.owner{border-left:10px solid var(--terra)}.blk.ai{border-left:10px solid var(--moss)}
+.blk.decision{background:var(--moss-soft);border-color:var(--moss)}
+.who{display:inline-block;border-radius:999px;padding:1px 10px;font-size:12px;font-weight:700;margin-right:8px;vertical-align:2px}
+.owner .who{background:var(--terra-soft);color:#8a5a2b}.ai .who{background:var(--moss-soft);color:var(--moss)}.decision .who{background:var(--moss);color:#fff}
+.key{background:var(--beige);border-radius:14px;padding:14px 18px;margin:14px 0}
+table{width:100%;border-collapse:collapse;background:#fff;font-size:13px}th,td{border:1px solid var(--line);padding:6px;vertical-align:top}th{background:var(--beige);text-align:left}
+td input,td textarea{min-height:38px;border:0;padding:2px}td textarea{min-height:52px}
+.radio{display:flex;gap:16px;flex-wrap:wrap}.radio label{display:flex;gap:6px;align-items:center;font-size:15px}
+input[type=radio],input[type=checkbox]{width:18px;height:18px;accent-color:var(--moss)}
+img.pv{max-width:100%;border-radius:10px;margin-top:6px;display:none}
+.card{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px 14px}
+footer{padding:0 16px 30px;font-size:13px;color:var(--sub)}
+@media print{.toolbar{display:none}body{background:#fff}}
+</style></head><body>
+<div class="toolbar">
+<button class="main" id="btnSave">保存する</button><button id="btnPrint">印刷／PDF</button>
+<button id="btnHtml">入力済みHTMLを書き出す</button><button id="btnJson">データ書き出し</button>
+<button id="btnImport">データ読み込み</button><input type="file" id="importFile" accept=".json,application/json" hidden>
+<button id="btnReset">全部リセット</button><span id="status">入力すると自動でこのブラウザに保存されます</span></div>
+<header><div class="wrap"><span class="badge">P1-09 ／ P1 課題・市場調査 ／ 担当：ChatGPT</span>
+<h1>HTMLでオーナー承認（方向性合意） — <input data-save="project" type="text" placeholder="案件名を入力" style="display:inline-block;width:min(320px,70%)"></h1>
+<div class="grid2">
+<label><b>日付・版</b><input data-save="datever" type="text" placeholder="例：2026-11-12 / v0.1"></label>
+<label><b>状態</b><select data-save="statusSel"><option>下書き</option><option>AI記入済み・確認待ち</option><option>オーナー確認済み</option><option>決定済み</option></select></label>
+</div>
+<p class="small">欄の見方：<strong>人が書く</strong>＝オーナーの言葉そのまま ／ <strong>AIが書く</strong>＝担当AIの下書き（出典と未検証を明記）／ <strong>決定</strong>＝オーナーの判断。入力内容は外部送信されません。</p>
+</div></header>
+<main>
+
+<div class="key"><h2>要点が先 — 決めてほしいこと</h2>
+<label><b>今回決めてほしいこと（1〜3点）</b><textarea data-save="ask" rows="3" placeholder="方向を進める／直して進める／やめる、の判断材料を先に"></textarea></label>
+</div>
+<section class="blk ai"><h2><span class="who">AIが書く</span>P1の要約（判断材料）</h2>
+<div class="grid2">
+<label><b>目的（P1-01より）</b><textarea data-save="s_purpose" rows="3" placeholder=""></textarea></label><label><b>利用者と課題（P1-02より）</b><textarea data-save="s_user" rows="3" placeholder=""></textarea></label>
+<label><b>差別化（P1-06の選定案）</b><textarea data-save="s_diff" rows="3" placeholder=""></textarea></label><label><b>成功指標（P1-08より）</b><textarea data-save="s_metrics" rows="3" placeholder=""></textarea></label>
+<label><b>主要リスク（P1-05より）</b><textarea data-save="s_risks" rows="3" placeholder=""></textarea></label><label><b>検証計画</b><textarea data-save="s_verify" rows="3" placeholder=""></textarea></label>
+</div>
+<label><b>証拠リンク（P1-01〜08の成果物・出典）</b><textarea data-save="evidence" rows="3" placeholder="1行に1リンク"></textarea></label>
+<label><b>未検証事項</b><textarea data-save="unknown9" rows="3" placeholder="未検証を PASS と書かない"></textarea></label>
+</section>
+<section class="blk decision"><h2><span class="who">決定</span>オーナーの方向性合意</h2>
+<div class="radio">
+<label><input type="radio" name="verdict" data-save="verdict" value="この方向で進める"> この方向で進める</label>
+<label><input type="radio" name="verdict" data-save="verdict" value="修正して進める"> 修正して進める</label>
+<label><input type="radio" name="verdict" data-save="verdict" value="やめる"> やめる</label>
+</div>
+<label><b>修正して進める場合の修正点</b><textarea data-save="fix" rows="3" placeholder=""></textarea></label>
+<label><b>決定の一言（オーナーの言葉をほぼ原文で）</b><textarea data-save="decisionwords" rows="3" placeholder=""></textarea></label>
+<label><b>P2へ進む条件・次にやること</b><textarea data-save="nextcond" rows="3" placeholder=""></textarea></label>
+<p class="small">この決定は、対象（案件名と版）とセットで GitHub 側の決定記録へ転記して初めて正式記録になります。この画面だけでは正式決定にしません。</p>
+</section>
+
+</main>
+<footer>成果物名：owner-discovery-decision ／ テンプレート共通フレーム v1（ヘッダー・欄の色分け・要点先・証拠と未検証・引き継ぎ）</footer>
+<script>
+"use strict";
+var KEY="p1pack-p109-v1";
+var state={fields:{}};
+function $(s,r){return (r||document).querySelector(s)}
+function $all(s,r){return Array.prototype.slice.call((r||document).querySelectorAll(s))}
+function setStatus(t){$("#status").textContent=t}
+function collect(){state.fields={};$all("[data-save]").forEach(function(el){
+ if(el.type==="radio"){if(el.checked)state.fields[el.getAttribute("data-save")]=el.value;}
+ else if(el.type==="checkbox"){state.fields[el.getAttribute("data-save")]=el.checked;}
+ else{state.fields[el.getAttribute("data-save")]=el.value;}});}
+function save(silent){collect();try{localStorage.setItem(KEY,JSON.stringify(state));if(!silent)setStatus("保存しました "+new Date().toLocaleTimeString("ja-JP"));}catch(e){setStatus("ブラウザ保存の容量がいっぱいです。書き出しで保存してください");}}
+var timer=null;
+document.addEventListener("input",function(e){var el=e.target;
+ if(el.hasAttribute&&el.hasAttribute("data-imgfor")){var img=document.getElementById(el.getAttribute("data-imgfor"));if(img){if(el.value.trim()){img.src=el.value.trim();img.style.display="block";}else{img.style.display="none";img.removeAttribute("src");}}}
+ clearTimeout(timer);timer=setTimeout(function(){save(true);setStatus("自動保存しました")},500);});
+document.addEventListener("change",function(){save(true);});
+function restore(){try{var raw=localStorage.getItem(KEY);if(!raw)return;state=JSON.parse(raw)||state;}catch(e){return}
+ $all("[data-save]").forEach(function(el){var k=el.getAttribute("data-save");if(!(k in (state.fields||{})))return;
+  if(el.type==="radio"){el.checked=(state.fields[k]===el.value);}
+  else if(el.type==="checkbox"){el.checked=!!state.fields[k];}
+  else{el.value=state.fields[k];}});
+ $all("[data-imgfor]").forEach(function(el){if(el.value&&el.value.trim()){var img=document.getElementById(el.getAttribute("data-imgfor"));if(img){img.src=el.value.trim();img.style.display="block";}}});
+ setStatus("前回の入力を復元しました");}
+restore();
+function download(blob,name){var a=document.createElement("a");a.href=URL.createObjectURL(blob);a.download=name;a.click();setTimeout(function(){URL.revokeObjectURL(a.href)},2000);}
+$("#btnSave").addEventListener("click",function(){save(false)});
+$("#btnPrint").addEventListener("click",function(){save(true);window.print()});
+$("#btnReset").addEventListener("click",function(){if(!confirm("入力を全部リセットしますか？"))return;localStorage.removeItem(KEY);location.reload();});
+$("#btnJson").addEventListener("click",function(){save(true);download(new Blob([JSON.stringify(state,null,2)],{type:"application/json"}),"data.json");});
+$("#btnImport").addEventListener("click",function(){$("#importFile").click()});
+$("#importFile").addEventListener("change",function(){var f=this.files[0];if(!f)return;var r=new FileReader();r.onload=function(){try{state=JSON.parse(r.result);localStorage.setItem(KEY,JSON.stringify(state));location.reload();}catch(e){alert("読み込めませんでした。書き出したJSONを選んでください。")}};r.readAsText(f);});
+$("#btnHtml").addEventListener("click",function(){save(true);
+ var clone=document.documentElement.cloneNode(true);
+ var srcEls=$all("input,textarea,select"),cloneEls=$all("input,textarea,select",clone);
+ srcEls.forEach(function(el,i){var c=cloneEls[i];if(!c)return;
+  if(el.type==="checkbox"||el.type==="radio"){if(el.checked)c.setAttribute("checked","");else c.removeAttribute("checked");}
+  else if(el.tagName==="TEXTAREA"){c.textContent=el.value;}
+  else{c.setAttribute("value",el.value);}});
+ $all("img[data-preview]").forEach(function(img,i){var ci=$all("img[data-preview]",clone)[i];if(ci&&img.getAttribute("src")){ci.setAttribute("src",img.getAttribute("src"));ci.style.display="block";}});
+ $all("script",clone).forEach(function(s){s.remove()});var tb=$(".toolbar",clone);if(tb)tb.remove();
+ download(new Blob(["<!DOCTYPE html>\n"+clone.outerHTML],{type:"text/html"}),"filled.html");setStatus("入力済みHTMLを書き出しました");});
+</script>
+</body></html>
