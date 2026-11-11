@@ -12,9 +12,12 @@ p1-01-problem-brief/       P1-01 アイデア・目的の整理
 p1-03-market-research/     P1-03 市場・競合・トレンド調査
 p1-06-value-options/       P1-06 価値提案・差別化案
 p1-09-owner-decision/      P1-09 オーナー承認（方向性合意）
+p2-02-ux-requirements/     P2-02 ユーザー体験・要求の設計
+p2-04-concept-approval/    P2-04 コンセプト方向性の合意
 p2-05-flow-design/         P2-05 情報設計とフロー・画面構成
 p2-06-design-system/       P2-06 デザインシステム
 p2-08-acceptance/          P2-08 受入条件とテスト設計
+p2-09-design-approval/     P2-09 設計承認と実装範囲確定
 p5-08-review-gate/         P5-08 レビューゲート判定
 p6-08-evidence-gate/       P6-08 実機・品質ゲートの証拠集約
 p7-06-release-approval/    P7-06 リリース承認（P7-03 セキュリティGo/No-Go 内包）
